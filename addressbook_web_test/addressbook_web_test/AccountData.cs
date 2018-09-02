@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SeleniumTests
+namespace WebAddressbookTest
 {
-    class AccountData
+   public class AccountData
     {
         public string login;
         public string password;
