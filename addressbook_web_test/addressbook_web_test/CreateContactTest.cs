@@ -17,8 +17,8 @@ namespace WebAddressbookTest
         [Test]
         public void TheUntitled2Test()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
+            navigator.OpenHomePage();
+            loginHelper.Login(new AccountData("admin", "secret"));
             AddNewContact(new GroupContacts("Alex","Sozontov","Viktorovich"));
             LogOut();
         }
