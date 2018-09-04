@@ -9,19 +9,20 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTest
 {
-   public class GroupHelper
+   public class GroupHelper : HelperBase
     {
-        private IWebDriver driver;
+      
 
-        public GroupHelper(IWebDriver driver)
+        public GroupHelper(IWebDriver driver):base(driver)
         {
-            this.driver = driver;
+            
         }
-        public void InitGroupCreation()
+        public GroupHelper InitGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
+            return this;
         }
-        public void FillGroupForm(GroupData group)
+        public GroupHelper FillGroupForm(GroupData group)
         {
             driver.FindElement(By.Name("group_name")).Clear();
             driver.FindElement(By.Name("group_name")).SendKeys(group.Name);
@@ -30,23 +31,28 @@ namespace WebAddressbookTest
             driver.FindElement(By.Name("group_footer")).Clear();
             driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
             driver.FindElement(By.Name("submit")).Click();
+            return this;
         }
-        public void RetutnToGroupPage()
+        public GroupHelper RetutnToGroupPage()
         {
             driver.FindElement(By.LinkText("group page")).Click();
+            return this;
         }
        
-        public void SelectGroup(int index)
+        public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            return this;
         }
-        public void RemoveGroup()
+        public GroupHelper RemoveGroup()
         {
             driver.FindElement(By.Name("delete")).Click();
+            return this;
         }
-        public void GoToGroupPage()
+        public GroupHelper GoToGroupPage()
         {
             driver.FindElement(By.LinkText("GROUPS")).Click();
+            return this;
         }
     }
 }

@@ -9,15 +9,15 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTest
 {
-  public  class NavigationHelper
+  public  class NavigationHelper : HelperBase
     {
         private string baseURL;
-        private IWebDriver driver;
+     
 
-        public NavigationHelper(IWebDriver driver,string baseURL)
+        public NavigationHelper(IWebDriver driver,string baseURL):base(driver)
         {
             this.baseURL = baseURL;
-            this.driver = driver;
+           
         }
         public void GoToGropsPage()
         {

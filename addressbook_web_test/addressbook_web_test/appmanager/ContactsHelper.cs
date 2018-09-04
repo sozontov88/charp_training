@@ -1,29 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using NUnit.Framework;
+using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTest
 {
-    [TestFixture]
-    public class CreateContactTest : TestBase
+   public class ContactsHelper: HelperBase
     {
-       
-
-        [Test]
-        public void TheUntitled2Test()
+        public ContactsHelper(IWebDriver driver):base (driver)
         {
-            navigator.OpenHomePage();
-            loginHelper.Login(new AccountData("admin", "secret"));
-            AddNewContact(new GroupContacts("Alex","Sozontov","Viktorovich"));
-            LogOut();
-        }
 
-        private void AddNewContact(GroupContacts contacts)
+        }
+        public void AddNewContact(GroupContacts contacts)
         {
             driver.FindElement(By.LinkText("ADD_NEW")).Click();
             driver.FindElement(By.Name("firstname")).Clear();
@@ -57,7 +49,7 @@ namespace WebAddressbookTest
             driver.FindElement(By.Name("homepage")).Clear();
             driver.FindElement(By.Name("homepage")).SendKeys(contacts.Homepage);
             new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText(contacts.Bday);
-           
+
             driver.FindElement(By.Name("byear")).Clear();
             driver.FindElement(By.Name("byear")).SendKeys(contacts.Byear);
             driver.FindElement(By.Name("address2")).Clear();
@@ -67,9 +59,8 @@ namespace WebAddressbookTest
             driver.FindElement(By.Name("notes")).Clear();
             driver.FindElement(By.Name("notes")).SendKeys(contacts.Notes);
             // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
-          
-        }
 
-      
-     }
+        }
+    }
 }
+

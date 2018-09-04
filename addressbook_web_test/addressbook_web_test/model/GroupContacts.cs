@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTest
 {
-    class GroupContacts
+   public class GroupContacts
     {
         private string firstname ;
         private string middlename ;

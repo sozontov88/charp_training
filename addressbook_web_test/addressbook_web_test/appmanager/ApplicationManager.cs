@@ -3,38 +3,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Support.UI;
 
 namespace WebAddressbookTest
 {
-  public  class TestBase
+    public class ApplicationManager
     {
         protected IWebDriver driver;
-        protected StringBuilder verificationErrors;
-
-        protected NavigationHelper navigator;
-
         protected string baseURL;
-        private bool acceptNextAlert = true;
+        protected NavigationHelper navigator;
         protected LoginHelper loginHelper;
         protected GroupHelper groupHelper;
-        [SetUp]
-        public void SetupTest()
+        protected ContactsHelper contacts;
+
+        public ApplicationManager()
         {
-            FirefoxOptions options = new FirefoxOptions();
-            driver = new FirefoxDriver(options);
-            baseURL = "http://localhost/";
-            verificationErrors = new StringBuilder();
+            contacts = new ContactsHelper(driver);
             navigator = new NavigationHelper(driver, baseURL);
             loginHelper = new LoginHelper(driver);
             groupHelper = new GroupHelper(driver);
         }
+        public LoginHelper Auth { get { return loginHelper; } }
+        public GroupHelper Groups { get { return groupHelper; } }
+        public NavigationHelper Navigator { get { return navigator; } }
+        public ContactsHelper Contacts { get { return contacts; } }
 
-        [TearDown]
-        public void TeardownTest()
+        public void Stop()
         {
             try
             {
@@ -44,14 +40,7 @@ namespace WebAddressbookTest
             {
                 // Ignore errors if unable to close the browser
             }
-            Assert.AreEqual("", verificationErrors.ToString());
+           
         }
-      
-     
-        protected void LogOut()
-        {
-            driver.FindElement(By.LinkText("LOGOUT")).Click();
-        }
-
-        }
+    }
 }
