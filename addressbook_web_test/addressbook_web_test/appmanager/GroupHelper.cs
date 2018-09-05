@@ -13,9 +13,27 @@ namespace WebAddressbookTest
     {
       
 
-        public GroupHelper(IWebDriver driver):base(driver)
+        public GroupHelper(ApplicationManager manager):base(manager)
         {
             
+        }
+
+        public GroupHelper Remove(int p)
+        {
+            manager.Navigator.GoToGropsPage();
+            SelectGroup(p);
+            RemoveGroup();
+            RetutnToGroupPage();
+            return this;
+        }
+
+        public GroupHelper Create(GroupData group)
+        {
+            manager.Navigator.GoToGropsPage();
+            InitGroupCreation();
+            FillGroupForm(group);
+            RetutnToGroupPage();
+            return this;
         }
         public GroupHelper InitGroupCreation()
         {

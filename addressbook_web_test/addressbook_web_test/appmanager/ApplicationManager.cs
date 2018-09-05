@@ -20,15 +20,22 @@ namespace WebAddressbookTest
 
         public ApplicationManager()
         {
-            contacts = new ContactsHelper(driver);
-            navigator = new NavigationHelper(driver, baseURL);
-            loginHelper = new LoginHelper(driver);
-            groupHelper = new GroupHelper(driver);
+            driver = new FirefoxDriver();
+            baseURL = "http://localhost";
+            contacts = new ContactsHelper(this);
+            navigator = new NavigationHelper(this, baseURL);
+            loginHelper = new LoginHelper(this);
+            groupHelper = new GroupHelper(this);
         }
         public LoginHelper Auth { get { return loginHelper; } }
         public GroupHelper Groups { get { return groupHelper; } }
         public NavigationHelper Navigator { get { return navigator; } }
         public ContactsHelper Contacts { get { return contacts; } }
+
+        public IWebDriver Driver
+        {
+            get { return driver; }
+        }
 
         public void Stop()
         {
