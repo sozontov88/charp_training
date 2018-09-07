@@ -20,7 +20,10 @@ namespace WebAddressbookTest
 
         public ApplicationManager()
         {
-            driver = new FirefoxDriver();
+            FirefoxOptions options = new FirefoxOptions();
+            options.BrowserExecutableLocation = @"C:\Program Files\Mozilla Firefox\firefox.exe";
+            options.UseLegacyImplementation = true;
+            driver = new FirefoxDriver(options);
             baseURL = "http://localhost";
             contacts = new ContactsHelper(this);
             navigator = new NavigationHelper(this, baseURL);

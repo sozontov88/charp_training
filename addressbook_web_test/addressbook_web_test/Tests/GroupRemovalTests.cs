@@ -10,7 +10,6 @@ namespace WebAddressbookTest
     public class GroupRemovalTests : TestBase
     {
       
-
         [Test]
         public void GroupRemovalTest()
         {
