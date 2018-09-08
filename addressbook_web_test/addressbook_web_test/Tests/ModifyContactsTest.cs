@@ -10,19 +10,24 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddressbookTest
 {
     [TestFixture]
-    public class CreateContactTest : TestBase
+    public class ModificationContacts: TestBase
     {
-       
+      
+            
 
         [Test]
-        public void CreateContactTests()
+        public void EditContact()
         {
-
-            app.Contacts.Create();
+            //app.Contacts.SelectContact("1");
+            app.Contacts.Edit(1);
+          
+           
+           
         }
+      
 
-       
+     
 
       
-     }
+    }
 }

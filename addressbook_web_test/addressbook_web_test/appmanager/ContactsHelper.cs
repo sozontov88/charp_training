@@ -15,9 +15,29 @@ namespace WebAddressbookTest
         {
 
         }
-        public void AddNewContact(GroupContacts contacts)
+         public void Create()
         {
-            driver.FindElement(By.LinkText("ADD_NEW")).Click();
+            manager.Navigator.GoToContactsPage();
+            AddNewContact(new GroupContacts("", "", ""));
+            SubmitContacts();
+        }
+            public void Remove(string i)
+        {
+            manager.Navigator.GoToHome();
+            SelectContact(i);
+            RemoveContacts();
+            driver.SwitchTo().Alert().Accept();
+        }
+        public void Edit(int index)
+        {
+            manager.Navigator.GoToHome();
+            EditContact(index);
+            AddNewContact(new GroupContacts("", "", ""));
+            SubmitContactsModification();
+        }
+        public ContactsHelper AddNewContact(GroupContacts contacts)
+        {
+           
             driver.FindElement(By.Name("firstname")).Clear();
             driver.FindElement(By.Name("firstname")).SendKeys(contacts.Firstname);
             driver.FindElement(By.Name("middlename")).Clear();
@@ -48,8 +68,6 @@ namespace WebAddressbookTest
             driver.FindElement(By.Name("email3")).SendKeys(contacts.Email3);
             driver.FindElement(By.Name("homepage")).Clear();
             driver.FindElement(By.Name("homepage")).SendKeys(contacts.Homepage);
-            new SelectElement(driver.FindElement(By.Name("bday"))).SelectByText(contacts.Bday);
-
             driver.FindElement(By.Name("byear")).Clear();
             driver.FindElement(By.Name("byear")).SendKeys(contacts.Byear);
             driver.FindElement(By.Name("address2")).Clear();
@@ -59,8 +77,38 @@ namespace WebAddressbookTest
             driver.FindElement(By.Name("notes")).Clear();
             driver.FindElement(By.Name("notes")).SendKeys(contacts.Notes);
             // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+            return this;
+        }
+       
+    
+        public ContactsHelper SelectContact(string index)
+        {
+            driver.FindElement(By.XPath("//tr[2]/td/input")).Click();
+            return this;
+        }
+        public ContactsHelper EditContact(int index)
+        {
+            driver.FindElement(By.XPath("(//img[@alt='EDIT'])["+ index + "]")).Click();
+
+            return this;
 
         }
+        public ContactsHelper SubmitContactsModification()
+        {
+            driver.FindElement(By.Name("update")).Click();
+            return this;
+        }
+        public void RemoveContacts()
+        {
+            driver.FindElement(By.XPath("//*[@id='content']/form[2]/div[2]/input")).Click();
+        }
+        public ContactsHelper SubmitContacts()
+        {
+            driver.FindElement(By.Name("submit")).Click();
+            return this;
+        }
+
+
     }
 }
 

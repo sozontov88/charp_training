@@ -27,6 +27,14 @@ namespace WebAddressbookTest
         {
             driver.Navigate().GoToUrl(baseURL + "/addressbook/group.php");
         }
+        public void GoToContactsPage()
+        {
+            driver.FindElement(By.LinkText("ADD_NEW")).Click();
+        }
+        public void GoToHome()
+        {
+            driver.FindElement(By.LinkText("HOME")).Click();
+        }
 
     }
 }
