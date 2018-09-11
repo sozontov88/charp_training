@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAddressbookTest
 {
     [TestFixture]
-    public class ModificationContacts: TestBase
+    public class ModificationContacts: AuthTestBase
     {
       
             
