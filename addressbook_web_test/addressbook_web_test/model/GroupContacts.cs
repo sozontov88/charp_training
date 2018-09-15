@@ -32,11 +32,10 @@ namespace WebAddressbookTest
 
 
 
-        public GroupContacts(string name,string middlename,string lastname)
+        public GroupContacts(string name)
         {
             firstname = name;
-            this.middlename = middlename;
-            this.lastname = lastname;
+            
         }
 
         public string Firstname

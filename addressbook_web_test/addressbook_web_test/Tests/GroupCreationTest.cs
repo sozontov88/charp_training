@@ -18,16 +18,17 @@ namespace WebAddressbookTest
             group.Footer = "aaa";
             group.Header = "zzz";
             app.Groups.Create(group);
+            Assert.IsTrue(app.Groups.IsGroupExist(group));
         }
-        [Test]
-        public void EmptyGroupCreationTests()
-        {
-            GroupData group = new GroupData("");
-            group.Footer = "";
-            group.Header = "";
-            app.Groups.Create(group);
-               
+        //[Test]
+        //public void EmptyGroupCreationTests()
+        //{
+        //    GroupData group = new GroupData("");
+        //    group.Footer = "";
+        //    group.Header = "";
+        //    app.Groups.Create(group);
+        //    Assert.IsTrue(app.Groups.IsGroupExist(group));
 
-        }
+        //}
     }
 }

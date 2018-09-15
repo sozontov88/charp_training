@@ -14,8 +14,8 @@ namespace WebAddressbookTest
         public void RemoveContact()
         {
             app.Contacts.Remove("1");
-                
-          
+            Assert.IsFalse(app.Contacts.IsContactPresent(new GroupContacts("Sanya")));
+            
         }
     }
 }

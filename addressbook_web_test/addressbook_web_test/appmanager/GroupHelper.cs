@@ -12,7 +12,6 @@ namespace WebAddressbookTest
    public class GroupHelper : HelperBase
     {
       
-
         public GroupHelper(ApplicationManager manager):base(manager)
         {
             
@@ -62,8 +61,6 @@ namespace WebAddressbookTest
             return this;
         }
 
-    
-
         public GroupHelper Submit()
         {
             driver.FindElement(By.Name("submit")).Click();
@@ -78,7 +75,11 @@ namespace WebAddressbookTest
        
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
+            {
+             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+            }
+          
             return this;
         }
         public GroupHelper RemoveGroup()
@@ -101,6 +102,16 @@ namespace WebAddressbookTest
             driver.FindElement(By.Name("update")).Click();
             return this;
         }
+        public bool IsGroupExist(GroupData group)
+        {
+           if( IsElementPresent(By.XPath("//span[@class='group']")))
+            {
+              return driver.FindElement(By.XPath("//span[@class='group']")).Text
+                      == group.Name;
+            }
+            return false;
 
+        }
+      
     }
 }

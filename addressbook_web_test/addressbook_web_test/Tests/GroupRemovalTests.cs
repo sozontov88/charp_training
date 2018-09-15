@@ -14,7 +14,7 @@ namespace WebAddressbookTest
         public void GroupRemovalTest()
         {
             app.Groups.Remove(1);
-           
+            Assert.IsFalse(app.Groups.IsGroupExist(new GroupData("first")));
         }
 
      }

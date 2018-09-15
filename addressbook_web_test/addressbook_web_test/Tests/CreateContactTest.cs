@@ -17,8 +17,11 @@ namespace WebAddressbookTest
         [Test]
         public void CreateContactTests()
         {
-
-            app.Contacts.Create();
+            GroupContacts newContact = new GroupContacts("second");
+            newContact.Lastname = "qqqqq";
+            newContact.Middlename = "asd";
+            app.Contacts.Create(newContact);
+            Assert.IsTrue(app.Contacts.IsContactPresent(newContact));
         }
 
        

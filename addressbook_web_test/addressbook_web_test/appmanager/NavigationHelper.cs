@@ -21,11 +21,21 @@ namespace WebAddressbookTest
         }
         public void GoToGropsPage()
         {
+            if (driver.Url == baseURL + "/addressbook/group.php"
+                && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.LinkText("GROUPS")).Click();
         }
         public void OpenHomePage()
         {
-            driver.Navigate().GoToUrl(baseURL + "/addressbook/group.php");
+            if(driver.Url == baseURL + "/addressbook/"
+                &&IsElementPresent(By.ClassName("left")))
+            {
+                return;
+            }
+            driver.Navigate().GoToUrl(baseURL + "/addressbook/");
         }
         public void GoToContactsPage()
         {

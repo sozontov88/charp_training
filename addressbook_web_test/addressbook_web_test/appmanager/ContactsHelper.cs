@@ -15,10 +15,10 @@ namespace WebAddressbookTest
         {
 
         }
-         public void Create()
+         public void Create(GroupContacts contact)
         {
             manager.Navigator.GoToContactsPage();
-            AddNewContact(new GroupContacts("", "", ""));
+            AddNewContact(contact);
             SubmitContacts();
         }
             public void Remove(string i)
@@ -28,11 +28,11 @@ namespace WebAddressbookTest
             RemoveContacts();
             driver.SwitchTo().Alert().Accept();
         }
-        public void Edit(int index)
+        public void Edit(GroupContacts contacts,int index)
         {
             manager.Navigator.GoToHome();
             EditContact(index);
-            AddNewContact(new GroupContacts("", "", ""));
+            AddNewContact(contacts);
             SubmitContactsModification();
         }
         public ContactsHelper AddNewContact(GroupContacts contacts)
@@ -40,11 +40,11 @@ namespace WebAddressbookTest
            
             driver.FindElement(By.Name("firstname")).Clear();
             driver.FindElement(By.Name("firstname")).SendKeys(contacts.Firstname);
-            driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(contacts.Middlename);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contacts.Lastname);
-            driver.FindElement(By.Name("nickname")).Clear();
+            //driver.FindElement(By.Name("middlename")).Clear();
+            //driver.FindElement(By.Name("middlename")).SendKeys(contacts.Middlename);
+            //driver.FindElement(By.Name("lastname")).Clear();
+            //driver.FindElement(By.Name("lastname")).SendKeys(contacts.Lastname);
+            //driver.FindElement(By.Name("nickname")).Clear();
             driver.FindElement(By.Name("nickname")).SendKeys(contacts.Nickname);
             driver.FindElement(By.Name("title")).Clear();
             driver.FindElement(By.Name("title")).SendKeys(contacts.Title);
@@ -107,8 +107,16 @@ namespace WebAddressbookTest
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
-
-
+        public bool IsContactPresent(GroupContacts contacts)
+        {
+            if(IsElementPresent(By.XPath("//tr[@name='entry']")))
+            {
+              //var s = driver.FindElement(By.XPath("//*[@id='maintable']/tbody/tr[2]/td[3]")).Text;
+              return driver.FindElement(By.XPath("//tr[@name='entry']/td[3]")).Text == contacts.Firstname;
+            }
+             return false;
+        }
+       
     }
 }
 

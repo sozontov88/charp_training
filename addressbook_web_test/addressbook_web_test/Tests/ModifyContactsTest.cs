@@ -18,11 +18,11 @@ namespace WebAddressbookTest
         [Test]
         public void EditContact()
         {
+            GroupContacts contact = new GroupContacts("Sanya");
             //app.Contacts.SelectContact("1");
-            app.Contacts.Edit(1);
+            app.Contacts.Edit(contact,1);
+            Assert.IsTrue(app.Contacts.IsContactPresent(contact));
           
-           
-           
         }
       
 
