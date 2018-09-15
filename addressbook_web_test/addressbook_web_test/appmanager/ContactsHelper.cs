@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -20,6 +21,7 @@ namespace WebAddressbookTest
             manager.Navigator.GoToContactsPage();
             AddNewContact(contact);
             SubmitContacts();
+            manager.Navigator.GoToHome();
         }
             public void Remove(string i)
         {
@@ -34,6 +36,7 @@ namespace WebAddressbookTest
             EditContact(index);
             AddNewContact(contacts);
             SubmitContactsModification();
+            manager.Navigator.GoToHome();
         }
         public ContactsHelper AddNewContact(GroupContacts contacts)
         {
@@ -109,9 +112,9 @@ namespace WebAddressbookTest
         }
         public bool IsContactPresent(GroupContacts contacts)
         {
-            if(IsElementPresent(By.XPath("//tr[@name='entry']")))
+                 
+            if(IsElementPresent(By.XPath("//*[@id='maintable']/tbody/tr[2]")))
             {
-              //var s = driver.FindElement(By.XPath("//*[@id='maintable']/tbody/tr[2]/td[3]")).Text;
               return driver.FindElement(By.XPath("//tr[@name='entry']/td[3]")).Text == contacts.Firstname;
             }
              return false;

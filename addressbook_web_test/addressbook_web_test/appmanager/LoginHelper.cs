@@ -48,7 +48,7 @@ namespace WebAddressbookTest
         {
             if ( IsLogedIn())
             {
-              driver.FindElement(By.Name("Logout")).Click();
+              driver.FindElement(By.Name("logout")).Click();
             }
            
         }
