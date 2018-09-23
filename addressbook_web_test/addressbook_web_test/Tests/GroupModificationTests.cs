@@ -16,8 +16,18 @@ namespace WebAddressbookTest
             GroupData newData = new GroupData("second");
             newData.Footer = "qqqqq";
             newData.Header = "asd";
-            app.Groups.Modify(1, newData);
-            Assert.IsTrue(app.Groups.IsGroupExist(newData));
+
+            List<GroupData> oldGroups = app.Groups.GetAllGroups();
+            app.Groups.Modify(0, newData);
+
+            List<GroupData> newGroups = app.Groups.GetAllGroups();
+
+            oldGroups[0].Name = newData.Name;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
+           
+
         }
 
     }

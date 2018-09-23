@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace WebAddressbookTest
 {
-   public class GroupContacts
+   public class UserData :IComparable<UserData>,IEquatable<UserData>
     {
         private string firstname ;
-        private string middlename ;
-        private string lastname ;
+        private string middlename ="";
+        private string lastname ="";
         private string nickname = "";
         private string title = "";
         private string company = "";
@@ -32,10 +32,10 @@ namespace WebAddressbookTest
 
 
 
-        public GroupContacts(string name)
+        public UserData(string firstname,string lastname)
         {
-            firstname = name;
-            
+            this.firstname = firstname;
+            this.lastname = lastname;
         }
 
         public string Firstname
@@ -142,6 +142,41 @@ namespace WebAddressbookTest
         {
             get { return notes; }
             set { notes = value; }
+        }
+
+        public int CompareTo(UserData other)
+        {
+            if(Object.ReferenceEquals(other,null))
+            {
+              return 1;
+            }
+            if(Lastname.CompareTo(other.Lastname)==0)
+            {
+                return 0;
+            }
+
+            return Firstname.CompareTo(other.Firstname);
+        }
+
+        public bool Equals(UserData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+              return false;
+            }
+             if(Object.ReferenceEquals(this,other))
+            {
+                return true;
+            }
+            return Firstname == other.Firstname&&Lastname==other.Lastname;
+        }
+        public override int GetHashCode()
+        {
+            return Firstname.GetHashCode()+Lastname.GetHashCode();
+        }
+        public override string ToString()
+        {
+            return "name = " + Firstname + " " + Lastname;
         }
     }
 }

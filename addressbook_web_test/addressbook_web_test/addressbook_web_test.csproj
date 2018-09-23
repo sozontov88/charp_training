@@ -62,7 +62,7 @@
     <Compile Include="appmanager\ContactsHelper.cs" />
     <Compile Include="model\AccountData.cs" />
     <Compile Include="appmanager\ApplicationManager.cs" />
-    <Compile Include="model\GroupContacts.cs" />
+    <Compile Include="model\UserData.cs" />
     <Compile Include="model\GroupData.cs" />
     <Compile Include="appmanager\GroupHelper.cs" />
     <Compile Include="Tests\AuthTestBase.cs" />

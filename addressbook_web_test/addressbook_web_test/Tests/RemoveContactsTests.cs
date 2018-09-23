@@ -13,8 +13,12 @@ namespace WebAddressbookTest
         [Test]
         public void RemoveContact()
         {
-            app.Contacts.Remove("1");
-            Assert.IsFalse(app.Contacts.IsContactPresent(new GroupContacts("Sanya")));
+            List<UserData> oldName = app.Contacts.GetAllName();
+            app.Contacts.Remove("0");
+          
+            List<UserData> newName = app.Contacts.GetAllName();
+            oldName.RemoveAt(0);
+            Assert.AreEqual(oldName, newName);
             
         }
     }

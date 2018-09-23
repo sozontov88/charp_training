@@ -26,14 +26,13 @@ namespace WebAddressbookTest
             return this;
         }
 
-        public List<GroupData> GetGroupList()
+        public List<GroupData> GetAllGroups()
         {
-            List< GroupData> groups = new List< GroupData>();
+            List<GroupData> groups = new List<GroupData>();
             manager.Navigator.GoToGropsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-                foreach(IWebElement element in elements)
+            ICollection <IWebElement> elements= driver.FindElements(By.CssSelector("span.group"));
+            foreach(IWebElement element in elements)
             {
-                
                 groups.Add(new GroupData(element.Text));
             }
             return groups;
@@ -88,9 +87,9 @@ namespace WebAddressbookTest
        
         public GroupHelper SelectGroup(int index)
         {
-            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + index + "]")))
+            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")))
             {
-             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
+             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
             }
           
             return this;

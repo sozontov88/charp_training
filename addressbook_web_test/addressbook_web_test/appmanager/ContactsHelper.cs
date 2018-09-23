@@ -16,7 +16,7 @@ namespace WebAddressbookTest
         {
 
         }
-         public void Create(GroupContacts contact)
+         public void Create(UserData contact)
         {
             manager.Navigator.GoToContactsPage();
             AddNewContact(contact);
@@ -30,7 +30,25 @@ namespace WebAddressbookTest
             RemoveContacts();
             driver.SwitchTo().Alert().Accept();
         }
-        public void Edit(GroupContacts contacts,int index)
+
+        public List<UserData> GetAllName()
+        {
+            List<UserData> groupContacts = new List<UserData>();
+            manager.Navigator.GoToHome();
+            ICollection<IWebElement> elementsFirst = driver.FindElements(By.XPath("//tr[@name='entry']"));
+            foreach (IWebElement element1 in elementsFirst)
+            {
+                IList<IWebElement> cells = element1.FindElements(By.TagName("td"));
+                string firstName = cells[2].Text;
+                string secondName = cells[1].Text;
+                groupContacts.Add(new UserData(firstName, secondName));
+            }
+                       
+            return groupContacts;
+        }
+               
+
+        public void Edit(UserData contacts,int index)
         {
             manager.Navigator.GoToHome();
             EditContact(index);
@@ -38,16 +56,16 @@ namespace WebAddressbookTest
             SubmitContactsModification();
             manager.Navigator.GoToHome();
         }
-        public ContactsHelper AddNewContact(GroupContacts contacts)
+        public ContactsHelper AddNewContact(UserData contacts)
         {
            
             driver.FindElement(By.Name("firstname")).Clear();
             driver.FindElement(By.Name("firstname")).SendKeys(contacts.Firstname);
-            //driver.FindElement(By.Name("middlename")).Clear();
-            //driver.FindElement(By.Name("middlename")).SendKeys(contacts.Middlename);
-            //driver.FindElement(By.Name("lastname")).Clear();
-            //driver.FindElement(By.Name("lastname")).SendKeys(contacts.Lastname);
-            //driver.FindElement(By.Name("nickname")).Clear();
+            driver.FindElement(By.Name("middlename")).Clear();
+            driver.FindElement(By.Name("middlename")).SendKeys(contacts.Middlename);
+            driver.FindElement(By.Name("lastname")).Clear();
+            driver.FindElement(By.Name("lastname")).SendKeys(contacts.Lastname);
+            driver.FindElement(By.Name("nickname")).Clear();
             driver.FindElement(By.Name("nickname")).SendKeys(contacts.Nickname);
             driver.FindElement(By.Name("title")).Clear();
             driver.FindElement(By.Name("title")).SendKeys(contacts.Title);
@@ -86,12 +104,16 @@ namespace WebAddressbookTest
     
         public ContactsHelper SelectContact(string index)
         {
-            driver.FindElement(By.XPath("//tr[2]/td/input")).Click();
+            if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")))
+            {
+                driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")).Click();
+            }
+
             return this;
         }
         public ContactsHelper EditContact(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='EDIT'])["+ index + "]")).Click();
+            driver.FindElement(By.XPath("(//img[@alt='EDIT'])["+ (index + 1) + "]")).Click();
 
             return this;
 
@@ -110,7 +132,7 @@ namespace WebAddressbookTest
             driver.FindElement(By.Name("submit")).Click();
             return this;
         }
-        public bool IsContactPresent(GroupContacts contacts)
+        public bool IsContactPresent(UserData contacts)
         {
                  
             if(IsElementPresent(By.XPath("//*[@id='maintable']/tbody/tr[2]")))
