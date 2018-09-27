@@ -22,7 +22,9 @@ namespace WebAddressbookTest
             newContact.Lastname = "123";
             List<UserData> oldName = app.Contacts.GetAllName();
             app.Contacts.Create(newContact);
-           
+
+            Assert.AreEqual(oldName.Count + 1, app.Contacts.GetNameCount());
+
             List<UserData> newName = app.Contacts.GetAllName();
             oldName.Add(newContact);
             oldName.Sort();

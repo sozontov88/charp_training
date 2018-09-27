@@ -31,24 +31,34 @@ namespace WebAddressbookTest
             driver.SwitchTo().Alert().Accept();
         }
 
+        public int GetNameCount()
+        {
+            return driver.FindElements(By.XPath("//tr[@name='entry']")).Count;
+        }
+        private List<UserData>contactCache = null;
         public List<UserData> GetAllName()
         {
-            List<UserData> groupContacts = new List<UserData>();
-            manager.Navigator.GoToHome();
-            ICollection<IWebElement> elementsFirst = driver.FindElements(By.XPath("//tr[@name='entry']"));
-            foreach (IWebElement element1 in elementsFirst)
+            if(contactCache ==null)
             {
+                contactCache = new List<UserData>();
+                manager.Navigator.GoToHome();
+                ICollection<IWebElement> elements = driver.FindElements(By.XPath("//tr[@name='entry']"));
+              foreach (IWebElement element1 in elements)
+            {
+                
                 IList<IWebElement> cells = element1.FindElements(By.TagName("td"));
                 string firstName = cells[2].Text;
                 string secondName = cells[1].Text;
-                groupContacts.Add(new UserData(firstName, secondName));
+                              
+                contactCache.Add(new UserData(firstName, secondName) {Id = element1.FindElement(By.Name("selected[]")).GetAttribute("Id")});
             }
-                       
-            return groupContacts;
+            }
+                   
+            return new List<UserData>(contactCache);
         }
                
 
-        public void Edit(UserData contacts,int index)
+        public void Edit(UserData contacts,int index = 0)
         {
             manager.Navigator.GoToHome();
             EditContact(index);
@@ -56,52 +66,31 @@ namespace WebAddressbookTest
             SubmitContactsModification();
             manager.Navigator.GoToHome();
         }
-        public ContactsHelper AddNewContact(UserData contacts)
+     
+       public ContactsHelper AddNewContact(UserData user)
         {
-           
-            driver.FindElement(By.Name("firstname")).Clear();
-            driver.FindElement(By.Name("firstname")).SendKeys(contacts.Firstname);
-            driver.FindElement(By.Name("middlename")).Clear();
-            driver.FindElement(By.Name("middlename")).SendKeys(contacts.Middlename);
-            driver.FindElement(By.Name("lastname")).Clear();
-            driver.FindElement(By.Name("lastname")).SendKeys(contacts.Lastname);
-            driver.FindElement(By.Name("nickname")).Clear();
-            driver.FindElement(By.Name("nickname")).SendKeys(contacts.Nickname);
-            driver.FindElement(By.Name("title")).Clear();
-            driver.FindElement(By.Name("title")).SendKeys(contacts.Title);
-            driver.FindElement(By.Name("company")).Clear();
-            driver.FindElement(By.Name("company")).SendKeys(contacts.Company);
-            driver.FindElement(By.Name("address")).Clear();
-            driver.FindElement(By.Name("address")).SendKeys(contacts.Address);
-            driver.FindElement(By.Name("home")).Clear();
-            driver.FindElement(By.Name("home")).SendKeys(contacts.Home);
-            driver.FindElement(By.Name("mobile")).Clear();
-            driver.FindElement(By.Name("mobile")).SendKeys(contacts.Mobile);
-            driver.FindElement(By.Name("work")).Clear();
-            driver.FindElement(By.Name("work")).SendKeys(contacts.Work);
-            driver.FindElement(By.Name("fax")).Clear();
-            driver.FindElement(By.Name("fax")).SendKeys(contacts.Fax);
-            driver.FindElement(By.Name("email")).Clear();
-            driver.FindElement(By.Name("email")).SendKeys(contacts.Email);
-            driver.FindElement(By.Name("email2")).Clear();
-            driver.FindElement(By.Name("email2")).SendKeys(contacts.Email2);
-            driver.FindElement(By.Name("email3")).Clear();
-            driver.FindElement(By.Name("email3")).SendKeys(contacts.Email3);
-            driver.FindElement(By.Name("homepage")).Clear();
-            driver.FindElement(By.Name("homepage")).SendKeys(contacts.Homepage);
-            driver.FindElement(By.Name("byear")).Clear();
-            driver.FindElement(By.Name("byear")).SendKeys(contacts.Byear);
-            driver.FindElement(By.Name("address2")).Clear();
-            driver.FindElement(By.Name("address2")).SendKeys(contacts.Address2);
-            driver.FindElement(By.Name("phone2")).Clear();
-            driver.FindElement(By.Name("phone2")).SendKeys(contacts.Phone2);
-            driver.FindElement(By.Name("notes")).Clear();
-            driver.FindElement(By.Name("notes")).SendKeys(contacts.Notes);
-            // ERROR: Caught exception [Error: Dom locators are not implemented yet!]
+            Type(By.Name("firstname"), user.Firstname);
+            Type(By.Name("middlename"),user.Middlename);
+            Type(By.Name("lastname"), user.Lastname);
+            Type(By.Name("nickname"), user.Nickname);
+            Type(By.Name("title"), user.Title);
+            Type(By.Name("company"), user.Company);
+            Type(By.Name("address"), user.Address);
+            Type(By.Name("home"), user.Home);
+            Type(By.Name("mobile"), user.Mobile);
+            Type(By.Name("work"), user.Work);
+            Type(By.Name("fax"), user.Fax);
+            Type(By.Name("email"), user.Email);
+            Type(By.Name("email2"), user.Email2);
+            Type(By.Name("email3"), user.Email3);
+            Type(By.Name("homepage"), user.Homepage);
+            Type(By.Name("byear"), user.Byear);
+            Type(By.Name("address2"), user.Address2);
+            Type(By.Name("notes"), user.Notes);
+            Type(By.Name("phone2"), user.Phone2);
             return this;
         }
-       
-    
+
         public ContactsHelper SelectContact(string index)
         {
             if (IsElementPresent(By.XPath("(//input[@name='selected[]'])[" + (index + 1) + "]")))
@@ -114,22 +103,25 @@ namespace WebAddressbookTest
         public ContactsHelper EditContact(int index)
         {
             driver.FindElement(By.XPath("(//img[@alt='EDIT'])["+ (index + 1) + "]")).Click();
-
+            contactCache = null;
             return this;
 
         }
         public ContactsHelper SubmitContactsModification()
         {
             driver.FindElement(By.Name("update")).Click();
+            contactCache = null;
             return this;
         }
         public void RemoveContacts()
         {
             driver.FindElement(By.XPath("//*[@id='content']/form[2]/div[2]/input")).Click();
+            contactCache = null;
         }
         public ContactsHelper SubmitContacts()
         {
             driver.FindElement(By.Name("submit")).Click();
+            contactCache = null;
             return this;
         }
         public bool IsContactPresent(UserData contacts)

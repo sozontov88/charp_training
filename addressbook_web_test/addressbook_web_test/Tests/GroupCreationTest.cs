@@ -20,7 +20,9 @@ namespace WebAddressbookTest
             group.Header = "zzz";
             List<GroupData>oldGroups= app.Groups.GetAllGroups();
             app.Groups.Create(group);
+           
 
+            Assert.AreEqual(oldGroups.Count+1, app.Groups.GetGroupCount());
             List<GroupData> newGroups = app.Groups.GetAllGroups();
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -36,6 +38,7 @@ namespace WebAddressbookTest
             group.Header = "";
             List<GroupData> oldGroups = app.Groups.GetAllGroups();
             app.Groups.Create(group);
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
             List<GroupData> newGroups = app.Groups.GetAllGroups();
 
             oldGroups.Add(group);
