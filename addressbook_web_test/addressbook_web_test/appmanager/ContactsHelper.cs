@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using OpenQA.Selenium;
@@ -56,12 +57,57 @@ namespace WebAddressbookTest
                    
             return new List<UserData>(contactCache);
         }
-               
-
-        public void Edit(UserData contacts,int index = 0)
+        public UserData GetContactInformationFromTable(int index)
         {
             manager.Navigator.GoToHome();
-            EditContact(index);
+           IList<IWebElement>cells =driver.FindElements(By.Name("entry"))[index].
+                FindElements(By.TagName("td"));
+            string lastname = cells[1].Text;
+            string firstname = cells[2].Text;
+            string address = cells[3].Text;
+            string allphones = cells[5].Text;
+            string allemails = cells[4].Text;
+            return new UserData(firstname, lastname)
+            {
+                Address = address,
+                Allphone = allphones,
+                Allemails = allemails
+                
+
+            };
+
+        }
+        public UserData GetContactInformation(int index)
+        {
+            manager.Navigator.GoToHome();
+            InitContactModification(0);
+            string firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value");
+            string lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value");
+            string address = driver.FindElement(By.Name("address")).GetAttribute("value");
+            string homePhone = driver.FindElement(By.Name("home")).GetAttribute("value");
+            string mobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value");
+            string workPhone = driver.FindElement(By.Name("work")).GetAttribute("value");
+
+            string email = driver.FindElement(By.Name("email")).GetAttribute("value");
+            string email2 = driver.FindElement(By.Name("email2")).GetAttribute("value");
+            string email3 = driver.FindElement(By.Name("email3")).GetAttribute("value");
+
+            return new UserData(firstname, lastname)
+            {
+                Address = address,
+                Home = homePhone,
+                Mobile = mobilePhone,
+                Work = workPhone,
+                Email = email,
+                Email2 = email2,
+                Email3 = email3
+            };
+        }
+
+        public void Edit(UserData contacts,int index)
+        {
+            manager.Navigator.GoToHome();
+            InitContactModification(0);
             AddNewContact(contacts);
             SubmitContactsModification();
             manager.Navigator.GoToHome();
@@ -100,12 +146,13 @@ namespace WebAddressbookTest
 
             return this;
         }
-        public ContactsHelper EditContact(int index)
+        public void InitContactModification(int index)
         {
-            driver.FindElement(By.XPath("(//img[@alt='EDIT'])["+ (index + 1) + "]")).Click();
-            contactCache = null;
-            return this;
-
+             contactCache = null;
+             driver.FindElements(By.Name("entry"))[index].
+             FindElements(By.TagName("td"))[7].
+             FindElement(By.TagName("a")).Click(); 
+            
         }
         public ContactsHelper SubmitContactsModification()
         {
@@ -132,6 +179,14 @@ namespace WebAddressbookTest
               return driver.FindElement(By.XPath("//tr[@name='entry']/td[3]")).Text == contacts.Firstname;
             }
              return false;
+        }
+        public int GetOfNumberOfSearchresult()
+        {
+            manager.Navigator.GoToHome();
+
+           string text = driver.FindElement(By.TagName("label")).Text;
+            Match m = new Regex(@"\d+").Match(text);
+         return  Int32.Parse( m.Value);
         }
        
     }

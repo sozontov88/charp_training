@@ -2,17 +2,66 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WebAddressbookTest
 {
    public class UserData :IComparable<UserData>,IEquatable<UserData>
     {
-     
+        private string allphones;
+        private string allemails;
+
         public UserData(string firstname,string lastname)
         {
             Firstname = firstname;
             Lastname = lastname;
+        }
+          public string Allemails
+        {
+            get
+            {
+                if (allemails != null)
+                    return allemails;
+
+                else
+                {
+                    return CleanEmail(Email) + CleanEmail(Email2) + CleanEmail(Email3).Trim();
+                }
+            }
+
+            set { allemails = value; }
+        }
+
+        public string CleanEmail(string email)
+        {
+            if (email == null || email == "")
+            {
+                return "";
+            }
+
+            return email + "\r\n";
+        }
+
+        public string Allphone {
+            get {
+                if (allphones!=null)
+                    return allphones;
+                else
+                {
+                    return CleanUp(Home) + CleanUp( Mobile) + CleanUp(Work).Trim();
+                }
+                }
+            set { allphones = value; }
+        }
+
+        public string CleanUp(string phone)
+        {
+            if(phone==null||phone =="")
+            {
+                return "";
+            }
+            return Regex.Replace(phone, "[ -()]", "") +"\r\n";
         }
 
         public string Firstname { get; set; }
@@ -58,6 +107,8 @@ namespace WebAddressbookTest
         public string Notes { get; set; }
      
         public string Id { get; set; }
+      
+
         public int CompareTo(UserData other)
         {
             if(Object.ReferenceEquals(other,null))
