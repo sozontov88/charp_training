@@ -17,6 +17,8 @@ namespace WebAddressbookTest
             Firstname = firstname;
             Lastname = lastname;
         }
+     public UserData(){}
+
           public string Allemails
         {
             get
@@ -26,7 +28,8 @@ namespace WebAddressbookTest
 
                 else
                 {
-                    return CleanEmail(Email) + CleanEmail(Email2) + CleanEmail(Email3).Trim();
+                    return (CleanEmail(Email) + CleanEmail(Email2) + CleanEmail(Email3)).Trim();
+                       
                 }
             }
 
@@ -49,7 +52,7 @@ namespace WebAddressbookTest
                     return allphones;
                 else
                 {
-                    return CleanUp(Home) + CleanUp( Mobile) + CleanUp(Work).Trim();
+                    return CleanUp(Home) + CleanUp( Mobile) + CleanUp(WorkPhone).Trim();
                 }
                 }
             set { allphones = value; }
@@ -64,6 +67,7 @@ namespace WebAddressbookTest
             return Regex.Replace(phone, "[ -()]", "") +"\r\n";
         }
 
+        public string PhoneProperty { get; set; }
         public string Firstname { get; set; }
     
         public string Middlename { get; set; }
@@ -82,7 +86,7 @@ namespace WebAddressbookTest
       
         public string Mobile { get; set; }
       
-        public string Work { get; set; }
+        public string WorkPhone { get; set; }
    
         public string Fax { get; set; }
      

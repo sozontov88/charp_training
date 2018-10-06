@@ -23,9 +23,9 @@ namespace WebAddressbookTest
             newContact.Email = "asdfg@asd";
             newContact.Email2 = "asdfzzg@asd";
             newContact.Email3 = "asdfzxcg@asd";
-            newContact.Phone2 = "asdfg@asd";
+            newContact.Mobile = "1212123(23)";
             newContact.Home = "12123(23)";
-            newContact.Work = "23234(123)";
+            newContact.WorkPhone = "23234(123)";
             List<UserData> oldName = app.Contacts.GetAllName();
             app.Contacts.Create(newContact);
 
@@ -43,11 +43,17 @@ namespace WebAddressbookTest
         {
             UserData fromTable = app.Contacts.GetContactInformationFromTable(0);
             UserData fromForm = app.Contacts.GetContactInformation(0);
+            UserData fromDeteils = app.Contacts.GetPropertyInformation(0);
+           
 
             Assert.AreEqual(fromTable, fromForm);
             Assert.AreEqual(fromTable.Address, fromForm.Address);
             Assert.AreEqual(fromTable.Allphone, fromForm.Allphone);
             Assert.AreEqual(fromTable.Allemails, fromForm.Allemails);
+
+
+            Assert.AreEqual(fromForm.Address, fromDeteils.Address);
+            Assert.AreEqual(fromForm.Allphone, fromDeteils.Allphone);
         }
         [Test]
         public void TestContactCount()

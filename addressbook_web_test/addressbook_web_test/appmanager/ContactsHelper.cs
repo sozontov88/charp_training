@@ -57,16 +57,52 @@ namespace WebAddressbookTest
                    
             return new List<UserData>(contactCache);
         }
+
+        //public UserData GetPropertyPhone()
+        //{
+
+
+        //    return UserData();
+        //}
+
+        public UserData GetPropertyInformation(int index)
+        {
+            manager.Navigator.GoToHome();
+            InitContactProperties(0);
+            var text = driver.FindElement(By.Id("content")).Text;
+            string[] content = text.Replace("\r", "").Split('\n');
+            string address = content[1];
+            string homePh = content[2];
+            string mobilePh = content[3];
+            string workPh = content[4];
+            
+            Match home = new Regex(@"(\d+)").Match(homePh.Replace("(","").Replace(")",""));
+            Match mobile = new Regex(@"(\d+)").Match(mobilePh.Replace("(", "").Replace(")", ""));
+            Match work = new Regex(@"(\d+)").Match(workPh.Replace("(", "").Replace(")", ""));
+            
+           
+            return new UserData()
+            {
+                Address = address,
+                Home = home.Value,
+                Mobile =mobile.Value,
+                WorkPhone = work.Value
+
+            };
+
+        }
+
         public UserData GetContactInformationFromTable(int index)
         {
             manager.Navigator.GoToHome();
            IList<IWebElement>cells =driver.FindElements(By.Name("entry"))[index].
-                FindElements(By.TagName("td"));
+             FindElements(By.TagName("td"));
             string lastname = cells[1].Text;
             string firstname = cells[2].Text;
             string address = cells[3].Text;
-            string allphones = cells[5].Text;
             string allemails = cells[4].Text;
+            string allphones = cells[5].Text;
+            
             return new UserData(firstname, lastname)
             {
                 Address = address,
@@ -97,7 +133,7 @@ namespace WebAddressbookTest
                 Address = address,
                 Home = homePhone,
                 Mobile = mobilePhone,
-                Work = workPhone,
+                WorkPhone = workPhone,
                 Email = email,
                 Email2 = email2,
                 Email3 = email3
@@ -124,7 +160,7 @@ namespace WebAddressbookTest
             Type(By.Name("address"), user.Address);
             Type(By.Name("home"), user.Home);
             Type(By.Name("mobile"), user.Mobile);
-            Type(By.Name("work"), user.Work);
+            Type(By.Name("work"), user.WorkPhone);
             Type(By.Name("fax"), user.Fax);
             Type(By.Name("email"), user.Email);
             Type(By.Name("email2"), user.Email2);
@@ -153,6 +189,12 @@ namespace WebAddressbookTest
              FindElements(By.TagName("td"))[7].
              FindElement(By.TagName("a")).Click(); 
             
+        }
+        public void InitContactProperties(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index].
+              FindElements(By.TagName("td"))[6].
+              FindElement(By.TagName("a")).Click();
         }
         public ContactsHelper SubmitContactsModification()
         {
@@ -186,7 +228,7 @@ namespace WebAddressbookTest
 
            string text = driver.FindElement(By.TagName("label")).Text;
             Match m = new Regex(@"\d+").Match(text);
-         return  Int32.Parse( m.Value);
+         return  Int32.Parse( m.Value);    //тут похоже
         }
        
     }
