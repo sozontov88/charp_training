@@ -32,7 +32,7 @@ namespace WebAddressbookTest
         public static IEnumerable<GroupData> GroupDataFromCsvFile()
         {
             List<GroupData> group = new List<GroupData>();
-            string[] lines = File.ReadAllLines(@"group.csv");
+            string[] lines = File.ReadAllLines(@"groups.csv");
           foreach(string l in lines)
             {
                 string[] parts = l.Split(',');

@@ -42,19 +42,12 @@ namespace WebAddressbookTest
         {
             return JsonConvert.DeserializeObject<List<UserData>>(File.ReadAllText(@"contacts.json"));
         }
+       
 
-
-        [Test, TestCaseSource("UserDataFromXmlFile")]
+        [Test, TestCaseSource("UserDataFromJsonFile")]
         public void CreateContactTests(UserData user)
         {
-            //UserData newContact = new UserData("first", "second");
-            //newContact.Lastname = "123";
-            //newContact.Email = "asdfg@asd";
-            //newContact.Email2 = "asdfzzg@asd";
-            //newContact.Email3 = "asdfzxcg@asd";
-            //newContact.Mobile = "1212123(23)";
-            //newContact.Home = "12123(23)";
-            //newContact.WorkPhone = "23234(123)";
+          
             List<UserData> oldName = app.Contacts.GetAllName();
             app.Contacts.Create(user);
 
