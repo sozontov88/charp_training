@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
@@ -29,9 +32,19 @@ namespace WebAddressbookTest
             }
             return user;
         }
+        public static IEnumerable<UserData> UserDataFromXmlFile()
+        {
+
+            return (List<UserData>)new XmlSerializer(typeof(List<UserData>)).
+                  Deserialize(new StreamReader(@"contacts.xml"));
+        }
+        public static IEnumerable<UserData> UserDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<UserData>>(File.ReadAllText(@"contacts.json"));
+        }
 
 
-        [Test, TestCaseSource("RandomContactProvider")]
+        [Test, TestCaseSource("UserDataFromXmlFile")]
         public void CreateContactTests(UserData user)
         {
             //UserData newContact = new UserData("first", "second");
