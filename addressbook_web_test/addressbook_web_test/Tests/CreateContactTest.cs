@@ -48,12 +48,12 @@ namespace WebAddressbookTest
         public void CreateContactTests(UserData user)
         {
           
-            List<UserData> oldName = app.Contacts.GetAllName();
+            List<UserData> oldName = UserData.GetAll();
             app.Contacts.Create(user);
 
             Assert.AreEqual(oldName.Count + 1, app.Contacts.GetNameCount());
 
-            List<UserData> newName = app.Contacts.GetAllName();
+            List<UserData> newName = UserData.GetAll();
             oldName.Add(user);
             oldName.Sort();
             newName.Sort();

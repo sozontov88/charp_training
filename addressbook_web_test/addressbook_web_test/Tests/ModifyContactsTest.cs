@@ -18,14 +18,14 @@ namespace WebAddressbookTest
         public void EditContact()
         {
             UserData contact = new UserData("Sanya", "ggf");
-            List<UserData> oldName = app.Contacts.GetAllName();
+            List<UserData> oldName = UserData.GetAll();
             UserData namebefore = oldName[0];
             //app.Contacts.SelectContact("1");
-            app.Contacts.Edit(contact,0);
+            app.Contacts.Edit(namebefore, contact);
 
             Assert.AreEqual(oldName.Count, app.Contacts.GetNameCount());
 
-            List<UserData> newName = app.Contacts.GetAllName();
+            List<UserData> newName = UserData.GetAll();
             oldName[0].Firstname = contact.Firstname;
             oldName[0].Lastname = contact.Lastname;
             oldName.Sort();

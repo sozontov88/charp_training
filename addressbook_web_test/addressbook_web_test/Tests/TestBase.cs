@@ -14,7 +14,7 @@ namespace WebAddressbookTest
     {
         protected ApplicationManager app;
         private bool acceptNextAlert = true;
-     
+        public static bool PERFORM_LONG_UI_CHECKS=false;
         [SetUp]
         public void SetupApplicationManager()
         {

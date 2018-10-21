@@ -17,20 +17,81 @@ namespace WebAddressbookTest
         {
 
         }
-         public void Create(UserData contact)
-        {
-            manager.Navigator.GoToContactsPage();
-            AddNewContact(contact);
-            SubmitContacts();
-            manager.Navigator.GoToHome();
-        }
-            public void Remove(string i)
+       public void Remove(string i)
         {
             manager.Navigator.GoToHome();
             SelectContact(i);
             RemoveContacts();
             driver.SwitchTo().Alert().Accept();
         }
+       public void Edit(UserData contacts,int index)
+        {
+            manager.Navigator.GoToHome();
+            SelectContactFromGroup(contacts.Id);
+            InitContactModification(0);
+            AddNewContact(contacts);
+            SubmitContactsModification();
+            manager.Navigator.GoToHome();
+        }
+        public void Edit(UserData contact, UserData oldName)
+        {
+            manager.Navigator.GoToHome();
+            SelectContact(contact);
+            InitContactModification(oldName.Value);
+            AddNewContact(oldName);
+            SubmitContactsModification();
+            manager.Navigator.GoToHome();
+        }
+
+        public void Remove(UserData user)
+        {
+            manager.Navigator.GoToHome();
+            SelectContact(user);
+            RemoveContacts();
+            driver.SwitchTo().Alert().Accept();
+
+        }
+
+        public void Create(UserData contact)
+        {
+            manager.Navigator.GoToContactsPage();
+            AddNewContact(contact);
+            SubmitContacts();
+            manager.Navigator.GoToHome();
+        }
+
+        public void AddContactToGroup(UserData user, GroupData group)
+        {
+            manager.Navigator.GoToHome();
+            ClearGroupFilter();
+            SelectContactFromGroup(user.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+            new WebDriverWait(driver, TimeSpan.FromSeconds(10)).
+                Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
+        }
+
+        private void SelectContactFromGroup(string id)
+        {
+            driver.FindElement(By.Id(id)).Click();
+        }
+
+        private void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        private void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[ALL]");
+        }
+
+     
 
         public int GetNameCount()
         {
@@ -140,14 +201,7 @@ namespace WebAddressbookTest
             };
         }
 
-        public void Edit(UserData contacts,int index)
-        {
-            manager.Navigator.GoToHome();
-            InitContactModification(0);
-            AddNewContact(contacts);
-            SubmitContactsModification();
-            manager.Navigator.GoToHome();
-        }
+     
      
        public ContactsHelper AddNewContact(UserData user)
         {
@@ -172,6 +226,15 @@ namespace WebAddressbookTest
             Type(By.Name("phone2"), user.Phone2);
             return this;
         }
+        public ContactsHelper SelectContact(UserData user)
+        {
+            
+          driver.FindElement(By.XPath("(//input[@name='selected[]'and @value = '"+ user.Id+ "'])")).Click();
+        
+            return this;
+        }
+
+        
 
         public ContactsHelper SelectContact(string index)
         {
@@ -190,6 +253,10 @@ namespace WebAddressbookTest
              FindElement(By.TagName("a")).Click(); 
             
         }
+     
+
+
+
         public void InitContactProperties(int index)
         {
             driver.FindElements(By.Name("entry"))[index].
