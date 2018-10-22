@@ -70,6 +70,15 @@ namespace WebAddressbookTest
             new WebDriverWait(driver, TimeSpan.FromSeconds(10)).
                 Until(d => d.FindElements(By.CssSelector("div.msgbox")).Count > 0);
         }
+        public void DeleteContactFromGroup(UserData user, GroupData group)
+        {
+            manager.Navigator.GoToHome();
+            ClearGroupFilter();
+            SelectContactFromGroup(user.Id);
+            RemoveContacts();
+            driver.SwitchTo().Alert().Accept();
+            manager.Navigator.GoToHome();
+        }
 
         private void SelectContactFromGroup(string id)
         {
